@@ -1,0 +1,11 @@
+.navigation {
+  background-color: #55595c;
+  padding: auto;
+  margin-bottom: 20px;
+}
+
+a.nav-link {
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+}
