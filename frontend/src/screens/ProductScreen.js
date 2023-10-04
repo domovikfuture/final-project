@@ -100,7 +100,7 @@ const ProductScreen = ({ history, match }) => {
           <Meta title={product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} fluid />
+              <Image src={window.location.origin + '/' + product.image} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant="flush">

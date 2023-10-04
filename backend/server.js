@@ -31,14 +31,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-app.use("/images", express.static(path.join(__dirname, "/images")));
+app.use("/uploads", cacheRequest(), express.static(path.join(__dirname, "/uploads")));
+app.use("/images", cacheRequest(), express.static(path.join(__dirname, "/images")));
 
 app.use("/api/products", cacheRequest(), productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", cacheRequest(), orderRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", cacheRequest(), adminRoutes);
+
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );

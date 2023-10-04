@@ -8,6 +8,7 @@ const NotFoundScreen = () => {
     const init = async () => {
       const data = await fetch(window.location.href);
       const resHtml = await data.text()
+      console.log(resHtml)
       setHtml(resHtml);
     };
     init();
