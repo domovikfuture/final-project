@@ -1,7 +1,6 @@
 import path from "path";
 import express from "express";
 import dotenv from "dotenv";
-import morgan from "morgan";
 import fs from "fs";
 import os from "os";
 
@@ -15,10 +14,9 @@ import MongoDBDataAccessLayer from "./models/index.js";
 import cacheRequest from "./utils/cacheRequest.js";
 
 dotenv.config();
+
 const __dirname = path.resolve();
-
 const app = express();
-
 let dataAccessLayer = null;
 
 if (!dataAccessLayer) {
@@ -26,14 +24,19 @@ if (!dataAccessLayer) {
   dataAccessLayer.connect();
 }
 
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "/frontend", "/build")));
 
-// app.get("*", (req, res) =>
-//   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-// );
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/images", express.static(path.join(__dirname, "/images")));
+
+app.use("/api/products", cacheRequest(), productRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", cacheRequest(), orderRoutes);
+app.use("/api/upload", cacheRequest(), uploadRoutes);
+app.use("/api/admin", cacheRequest(), adminRoutes);
 
 app.use((req, res, next) => {
-  console.log("1 request");
   req.db = dataAccessLayer;
   next();
 });
@@ -80,21 +83,16 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.use(express.json());
-
-app.use("/api/products", cacheRequest(), productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", cacheRequest(), orderRoutes);
-app.use("/api/upload", cacheRequest(), uploadRoutes);
-app.use("/api/admin", cacheRequest(), adminRoutes);
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-app.use("/images", express.static(path.join(__dirname, "/images")));
-app.use("/static", express.static(path.join(__dirname, "/static")));
+
+
 // console.log(process.env.NODE_ENV)
 // if (process.env.NODE_ENV === "production") {
 //   console.log("production")
