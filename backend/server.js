@@ -46,14 +46,12 @@ app.get("/api/config/paypal", (req, res) =>
 );
 
 app.use(async (req) => {
-  console.log("km km ", req.headers.referer);
-
+  if (!req.headers.referer) return
   const { pathname } = new URL(req.headers.referer);
   const filePath = path.join(__dirname, "/backend", "links.json");
   let isUpdated = false;
 
   const data = await fs.promises.readFile(filePath);
-  console.log(data);
   const links = JSON.parse(data);
 
   if (!links.length) {
@@ -63,30 +61,35 @@ app.use(async (req) => {
     links.push(pathname);
   }
 
-  await fs.promises.writeFile(filePath, JSON.stringify(links));
+  const newData = JSON.stringify(links);
+  await fs.promises.writeFile(filePath, newData);
 
-  // if (isUpdated) {
-  //   const data = await fs.promises.readFile(filePath, (err) => {
-  //     console.log(err);
-  //   });
-  //   const links = JSON.parse(data);
-  //   let siteMapContent = "";
-  //   links.map((item) => {
-  //     siteMapContent +=
-  //       `<url><loc>http://http://161.35.68.81/${item}</loc></url>` + os.EOL;
-  //   });
-  //   await fs.promises.writeFile(
-  //     path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
-  //     `<?xml version="1.0" encoding="UTF-8"?>
-  //       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  //         ${siteMapContent}
-  //       </urlset>`,
-  //     (err) => {
-  //       if (err) console.log("Ошибка", err);
-  //     }
-  //   );
-  //   isUpdated = false;
-  // }
+  if (isUpdated) {
+    const data = await fs.promises.readFile(filePath, (err) => {
+      console.log(err);
+    });
+
+    let siteMapContent = "";
+    const links = JSON.parse(data);
+    links.map((item) => {
+      siteMapContent +=
+        `<url><loc>http://161.35.68.81/${item}</loc></url>` + os.EOL;
+    });
+
+    const newContent =  `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      ${siteMapContent}
+    </urlset>`;
+
+    await fs.promises.writeFile(
+      path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
+      newContent,
+      (err) => {
+        if (err) console.log("Ошибка", err);
+      }
+    );
+    isUpdated = false
+  }
 });
 
 app.get("*", (req, res) =>

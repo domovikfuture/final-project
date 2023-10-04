@@ -31,11 +31,12 @@ const __dirname = path.resolve();
 router.put("/", upload.single("image"), async (req, res) => {
   const { id } = req.body;
   const { buffer, originalname } = req.file;
+  console.log(1)
 
   try {
     const { image } = await req.db.fetchProductById(id);
     const existingBuffer = await fs.promises.readFile(
-      path.join(__dirname, "/uploads", `${id}-main-image.webp`)
+      path.resolve(__dirname, "uploads", `${id}-main-image.webp`)
     );
     if (Buffer.compare(buffer, existingBuffer) === 0) {
       res.status(304).send(image);
@@ -47,13 +48,13 @@ router.put("/", upload.single("image"), async (req, res) => {
         originalname.split(".")[0]
       }.webp`;
 
-      await fs.promises.unlink(path.join(__dirname, image));
+      await fs.promises.unlink(path.resolve(__dirname, image));
 
       await sharp(buffer)
         .webp({ quality: 20 })
-        .toFile(path.join(__dirname, "/images", updatedImageName));
+        .toFile(path.resolve(__dirname, "images", updatedImageName));
 
-      res.send(path.join("/images", updatedImageName));
+      res.send(path.resolve("images", updatedImageName));
     }
   } catch (err) {
     if (err) console.log("Ошибка", err);
@@ -72,14 +73,14 @@ router.post("/", upload.single("image"), async (req, res) => {
     const finalImageName = `${timestamp}-${originalname.split(".")[0]}.webp`;
 
     await fs.promises.writeFile(
-      path.join(__dirname, "/uploads", `${id}-main-image.webp`),
+      path.resolve(__dirname, "uploads", `${id}-main-image.webp`),
       buffer
     );
     await sharp(buffer)
       .webp({ quality: 20 })
-      .toFile(path.join(__dirname, "/images", finalImageName));
+      .toFile(path.resolve(__dirname, "images", finalImageName));
 
-    res.send(path.join("/images", finalImageName));
+    res.send(path.join("images", finalImageName));
   } catch (e) {
     res.status(404).send(e);
   }

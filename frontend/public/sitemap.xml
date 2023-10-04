@@ -1,32 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <url><loc>undefined://undefined/smartphones</loc></url>
-<url><loc>undefined://undefined/product/neaxnl</loc></url>
-<url><loc>undefined://undefined/</loc></url>
-<url><loc>undefined://undefined/games</loc></url>
-<url><loc>undefined://undefined/notebooks</loc></url>
-<url><loc>undefined://undefined/login</loc></url>
-<url><loc>undefined://undefined/cart</loc></url>
-<url><loc>undefined://undefined/search/node.js</loc></url>
-<url><loc>undefined://undefined/search/12111</loc></url>
-<url><loc>undefined://undefined/search/1</loc></url>
-<url><loc>undefined://undefined/search/123</loc></url>
-<url><loc>undefined://undefined/search/333</loc></url>
-<url><loc>undefined://undefined/search/is:pr%20is:closed%20author:stanislavdrozd</loc></url>
-<url><loc>undefined://undefined/search/is:pr:stanislavdrozd</loc></url>
-<url><loc>undefined://undefined/search/3333322</loc></url>
-<url><loc>undefined://undefined/sitemap.xml</loc></url>
-<url><loc>undefined://undefined/sitemap</loc></url>
-<url><loc>undefined://undefined/static/sitemap</loc></url>
-<url><loc>undefined://undefined/static/sitemap.xml</loc></url>
-<url><loc>undefined://undefined/search/222221</loc></url>
-<url><loc>undefined://undefined/search/3333333333333333333333</loc></url>
-<url><loc>undefined://undefined/search/33333333323333333333333</loc></url>
-<url><loc>undefined://undefined/search/%D0%BA%D0%BE%D0%BB</loc></url>
-<url><loc>undefined://undefined/search/200</loc></url>
-<url><loc>undefined://undefined/search/%D0%BF%D0%BE%D1%80%D1%82%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8F</loc></url>
-<url><loc>undefined://undefined/search/%D0%BF%D0%BE%D1%80%D1%82%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F</loc></url>
-<url><loc>undefined://undefined/register</loc></url>
-<url><loc>undefined://undefined/product/b2x4ve</loc></url>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url><loc>http://161.35.68.81//</loc></url>
+<url><loc>http://161.35.68.81//product/neaxnl</loc></url>
+<url><loc>http://161.35.68.81//smartphones</loc></url>
+<url><loc>http://161.35.68.81//login</loc></url>
+<url><loc>http://161.35.68.81//admin/productlist</loc></url>
+<url><loc>http://161.35.68.81//admin/product/b2x4ve/edit</loc></url>
+<url><loc>http://161.35.68.81//admin/product/create/yjjn91</loc></url>
+<url><loc>http://161.35.68.81//admin/login.asp</loc></url>
+<url><loc>http://161.35.68.81//admin/product/create/40qai0</loc></url>
 
-          </urlset>
+    </urlset>
