@@ -56,7 +56,7 @@ router.put("/", upload.single("image"), async (req, res) => {
       res.send(path.join("/images", updatedImageName));
     }
   } catch (err) {
-    console.log(err)
+    if (err) console.log("Ошибка", err);
     res.status(404).send(err);
   }
 });

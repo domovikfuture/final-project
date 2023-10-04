@@ -52,6 +52,7 @@ app.use(async (req, res, next) => {
   let isUpdated = false;
 
   const data = await fs.promises.readFile(filePath);
+  console.log(data)
   const links = JSON.parse(data);
 
   if (!links.length) {
@@ -78,7 +79,7 @@ app.use(async (req, res, next) => {
             ${siteMapContent}
           </urlset>`,
         (err) => {
-          if (err) console.log(err);
+          if (err) console.log("Ошибка", err);
           isUpdated = false;
         }
       );
@@ -99,4 +100,4 @@ app.get("*", async (req, res) => {
 
 const PORT = 80;
 
-app.listen(PORT, console.log("Сервер запущен"));
+app.listen(PORT, console.log("Сервер запущен на порту " + PORT));
