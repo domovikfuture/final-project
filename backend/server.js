@@ -89,19 +89,19 @@ app.get("/api/config/paypal", (req, res) =>
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use("/static", express.static(path.join(__dirname, "/static")));
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV === "production") {
-  console.log("production")
+// console.log(process.env.NODE_ENV)
+// if (process.env.NODE_ENV === "production") {
+//   console.log("production")
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
   );
-} else {
-  app.get("/", (req, res) => {
-    res.send("Сервер запущен.");
-  });
-}
+// } else {
+//   app.get("/", (req, res) => {
+//     res.send("Сервер запущен.");
+//   });
+// }
 
 app.get("*", async (req, res) => {
   const page = await req.db.get404PageHtml();
