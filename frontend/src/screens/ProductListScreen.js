@@ -37,6 +37,9 @@ const ProductListScreen = ({ history, match }) => {
     } else {
       dispatch(listProducts('', pageNumber))
     }
+    if (successDelete) {
+      dispatch(listProducts('', pageNumber))
+    }
   }, [dispatch, history, userInfo, successDelete, pageNumber]);
 
   useEffect(() => console.log('page'), [])
