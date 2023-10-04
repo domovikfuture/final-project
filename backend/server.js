@@ -65,25 +65,26 @@ app.use(async (req, res, next) => {
     await fs.promises.writeFile(filePath, JSON.stringify(links));
 
     if (isUpdated) {
-      fs.readFile(filePath, (err, data) => {
-        const links = JSON.parse(data);
-        let siteMapContent = "";
-        links.map((item) => {
-          siteMapContent +=
-            `<url><loc>http://http://161.35.68.81/${item}</loc></url>` + os.EOL;
-        });
-        fs.writeFile(
-          path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
-          `<?xml version="1.0" encoding="UTF-8"?>
-            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-              ${siteMapContent}
-            </urlset>`,
-          (err) => {
-            if (err) console.log("Ошибка", err);
-            isUpdated = false;
-          }
-        );
+      const data = await fs.promises.readFile(filePath, (err) => {
+        console.log(err);
       });
+      const links = JSON.parse(data);
+      let siteMapContent = "";
+      links.map((item) => {
+        siteMapContent +=
+          `<url><loc>http://http://161.35.68.81/${item}</loc></url>` + os.EOL;
+      });
+      await fs.promises.writeFile(
+        path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
+        `<?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            ${siteMapContent}
+          </urlset>`,
+        (err) => {
+          if (err) console.log("Ошибка", err);
+        }
+      );
+      isUpdated = false;
     }
     next();
   } catch (e) {
