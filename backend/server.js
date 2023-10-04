@@ -32,6 +32,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, "/frontend", "/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+);
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/images", express.static(path.join(__dirname, "/images")));
@@ -91,10 +94,6 @@ app.use(async (req) => {
     isUpdated = false
   }
 });
-
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-);
 
 app.get("*", async (req, res) => {
   const page = await req.db.get404PageHtml();
