@@ -63,7 +63,7 @@ app.use(async (req) => {
     links.push(pathname);
   }
 
-  // await fs.promises.writeFile(filePath, JSON.stringify(links));
+  await fs.promises.writeFile(filePath, JSON.stringify(links));
 
   // if (isUpdated) {
   //   const data = await fs.promises.readFile(filePath, (err) => {
