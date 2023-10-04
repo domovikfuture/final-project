@@ -31,8 +31,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/uploads", cacheRequest(), express.static(path.join(__dirname, "/uploads")));
-app.use("/images", cacheRequest(), express.static(path.join(__dirname, "/images")));
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use("/api/products", cacheRequest(), productRoutes);
 app.use("/api/users", userRoutes);
@@ -43,6 +43,11 @@ app.use("/api/admin", cacheRequest(), adminRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+app.get("/404", async (req, res) => {
+  const page = await req.db.get404PageHtml();
+  res.send(page[0].text).status(404);
+});
 
 app.use(express.static(path.join(__dirname, "/frontend", "/build")));
 app.get("*", (req, res) =>
@@ -70,7 +75,7 @@ app.use(async (req) => {
 
   if (isUpdated) {
     const data = await fs.promises.readFile(filePath, (err) => {
-      console.log(err);
+      if (err) console.log("Ошибка", err);
     });
 
     let siteMapContent = "";
@@ -94,11 +99,6 @@ app.use(async (req) => {
     );
     isUpdated = false
   }
-});
-
-app.get("*", async (req, res) => {
-  const page = await req.db.get404PageHtml();
-  res.send(page[0].text).status(404);
 });
 
 const PORT = 3000;

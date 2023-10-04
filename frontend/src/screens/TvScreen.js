@@ -1,18 +1,26 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Meta from "../components/Meta";
 
+import { listProductsAll } from "../actions/productActions";
+
 const TvScreen = () => {
+  const dispatch = useDispatch();
+
   const productList = useSelector((state) => state.productListAll);
   const { loading, error, products } = productList;
 
   const productsForDisplay = products.filter(
     (product) => product.category === "tv"
   );
+
+  useEffect(() => {
+    dispatch(listProductsAll());
+  }, [dispatch]);
 
   return (
     <>

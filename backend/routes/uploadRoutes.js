@@ -38,7 +38,6 @@ router.put("/", upload.single("image"), async (req, res) => {
       path.resolve(__dirname, "uploads", `${id}-main-image.webp`)
     );
     if (Buffer.compare(buffer, existingBuffer) === 0) {
-      console.log(image)
       res.send(image).status(304);
     } else {
       const timestamp = new Date()

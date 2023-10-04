@@ -52,7 +52,6 @@ class MongoDBDataAccessLayer {
 
   async removeProduct(id) {
     const product = await Product.findOne({productId: id});
-    console.log(product)
     if (product) {
       await product.deleteOne();
     }

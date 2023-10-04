@@ -9,7 +9,7 @@ const cacheRequest = (duration = 60) => (req, res, next) => {
   }
   const key = req.originalUrl;
   const cachedResponse = cache.get(key);
-  console.log(cache)
+
   if (cachedResponse) {
     console.error(`Кэш уже установлен ${key}`);
     res.send(cachedResponse);
