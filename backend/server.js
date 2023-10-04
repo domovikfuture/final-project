@@ -24,12 +24,13 @@ if (!dataAccessLayer) {
   dataAccessLayer.connect();
 }
 
+app.use(express.json());
+
 app.use((req, res, next) => {
   req.db = dataAccessLayer;
   next();
 });
 
-app.use(express.json());
 app.use(express.static(path.join(__dirname, "/frontend", "/build")));
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
