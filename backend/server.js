@@ -15,6 +15,7 @@ import MongoDBDataAccessLayer from "./models/index.js";
 import cacheRequest from "./utils/cacheRequest.js";
 
 dotenv.config();
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -85,12 +86,12 @@ app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use("/static", express.static(path.join(__dirname, "/static")));
 
 if (process.env.NODE_ENV === "production") {
+  console.log("production")
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
   app.get("*", (req, res) =>
