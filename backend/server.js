@@ -31,11 +31,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, "/frontend", "/build")));
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-);
-
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
@@ -46,6 +41,11 @@ app.use("/api/upload", cacheRequest(), uploadRoutes);
 app.use("/api/admin", cacheRequest(), adminRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
+);
+
+app.use(express.static(path.join(__dirname, "/frontend", "/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
 );
 
 app.use(async (req) => {
