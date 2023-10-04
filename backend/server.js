@@ -46,6 +46,7 @@ app.get("/api/config/paypal", (req, res) =>
 );
 
 app.use(async (req, res, next) => {
+  console.log(req.headers.referer)
   const { pathname } = new URL(req.headers.referer);
   const filePath = path.join(__dirname, "/backend", "links.json");
   let isUpdated = false;
