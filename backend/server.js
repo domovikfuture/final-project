@@ -45,7 +45,7 @@ app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-app.use(async (req, res, next) => {
+app.use(async (req) => {
   console.log(req.headers.referer);
   try {
     const { pathname } = new URL(req.headers.referer);
@@ -86,10 +86,8 @@ app.use(async (req, res, next) => {
       );
       isUpdated = false;
     }
-    next();
   } catch (e) {
     console.log(e);
-    next();
   }
 });
 
