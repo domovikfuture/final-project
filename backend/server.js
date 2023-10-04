@@ -45,49 +45,49 @@ app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-app.use(async (req, res, next) => {
-  console.log(req.headers.referer)
-  const { pathname } = new URL(req.headers.referer);
-  const filePath = path.join(__dirname, "/backend", "links.json");
-  let isUpdated = false;
+// app.use(async (req, res, next) => {
+//   console.log(req.headers.referer)
+//   const { pathname } = new URL(req.headers.referer);
+//   const filePath = path.join(__dirname, "/backend", "links.json");
+//   let isUpdated = false;
 
-  const data = await fs.promises.readFile(filePath);
-  console.log(data)
-  const links = JSON.parse(data);
+//   const data = await fs.promises.readFile(filePath);
+//   console.log(data)
+//   const links = JSON.parse(data);
 
-  if (!links.length) {
-    links.push(pathname);
-  } else if (!links.includes(pathname)) {
-    isUpdated = true;
-    links.push(pathname);
-  }
-  await fs.promises.writeFile(filePath, JSON.stringify(links));
+//   if (!links.length) {
+//     links.push(pathname);
+//   } else if (!links.includes(pathname)) {
+//     isUpdated = true;
+//     links.push(pathname);
+//   }
+//   await fs.promises.writeFile(filePath, JSON.stringify(links));
 
-  if (isUpdated) {
-    fs.readFile(filePath, (err, data) => {
-      const links = JSON.parse(data);
-      let siteMapContent = "";
-      links.map((item) => {
-        siteMapContent +=
-          `<url><loc>${req.headers["x-forwarded-proto"]}://${req.headers["x-forwarded-host"]}${item}</loc></url>` +
-          os.EOL;
-      });
-      fs.writeFile(
-        path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
-        `<?xml version="1.0" encoding="UTF-8"?>
-          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            ${siteMapContent}
-          </urlset>`,
-        (err) => {
-          if (err) console.log("Ошибка", err);
-          isUpdated = false;
-        }
-      );
-    });
-  }
+//   if (isUpdated) {
+//     fs.readFile(filePath, (err, data) => {
+//       const links = JSON.parse(data);
+//       let siteMapContent = "";
+//       links.map((item) => {
+//         siteMapContent +=
+//           `<url><loc>${req.headers["x-forwarded-proto"]}://${req.headers["x-forwarded-host"]}${item}</loc></url>` +
+//           os.EOL;
+//       });
+//       fs.writeFile(
+//         path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
+//         `<?xml version="1.0" encoding="UTF-8"?>
+//           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+//             ${siteMapContent}
+//           </urlset>`,
+//         (err) => {
+//           if (err) console.log("Ошибка", err);
+//           isUpdated = false;
+//         }
+//       );
+//     });
+//   }
 
-  next();
-});
+//   next();
+// });
 
 app.get("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
