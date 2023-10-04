@@ -1,11 +1,5 @@
-import fs from "fs";
-import path from "path";
 import { exec } from "child_process";
-
-const __dirname = path.resolve();
-
-const uploadsDir = path.resolve(__dirname, "uploads");
-const imagesDir = path.resolve(__dirname, "images");
+import fs from "fs";
 
 const loadStaticTest = (dir, name) => {
   fs.readdir(dir, (err, files) => {
@@ -33,5 +27,4 @@ const loadStaticTest = (dir, name) => {
   });
 };
 
-loadStaticTest(uploadsDir, 'uploads')
-loadStaticTest(imagesDir, 'images')
+export default loadStaticTest
