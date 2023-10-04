@@ -24,6 +24,11 @@ if (!dataAccessLayer) {
   dataAccessLayer.connect();
 }
 
+app.use((req, res, next) => {
+  req.db = dataAccessLayer;
+  next();
+});
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/frontend", "/build")));
 
@@ -35,11 +40,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", cacheRequest(), orderRoutes);
 app.use("/api/upload", cacheRequest(), uploadRoutes);
 app.use("/api/admin", cacheRequest(), adminRoutes);
-
-app.use((req, res, next) => {
-  req.db = dataAccessLayer;
-  next();
-});
 
 app.use(async (req, res, next) => {
   const { pathname } = new URL(req.headers.referer);

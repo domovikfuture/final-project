@@ -100,8 +100,7 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-const getTopProducts = asyncHandler(async (req, res, db) => {
-  console.log('request')
+const getTopProducts = asyncHandler(async (req, res) => {
   const products = await req.db.fetchTopProducts(-1, 3);
   res.json(products);
 });
