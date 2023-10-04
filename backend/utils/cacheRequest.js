@@ -2,7 +2,7 @@ import NodeCache from "node-cache";
 
 const cache = new NodeCache();
 
-const cacheRequest = (duration = 3600) => (req, res, next) => {
+const cacheRequest = (duration = 60) => (req, res, next) => {
   if (req.method !== "GET") {
     console.log("Кэш не возможен для методов, отличных от GET!");
     return next();
