@@ -52,12 +52,10 @@ const App = () => {
             <Route
               path="/admin/productlist"
               component={ProductListScreen}
-              exact
             />
             <Route
               path="/admin/productlist/:pageNumber"
               component={ProductListScreen}
-              exact
             />
             <Route
               path="/admin/notfoundredactor"

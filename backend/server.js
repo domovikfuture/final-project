@@ -37,7 +37,7 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use("/api/products", cacheRequest(), productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", cacheRequest(), orderRoutes);
-app.use("/api/upload", cacheRequest(), uploadRoutes);
+app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", cacheRequest(), adminRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
@@ -100,6 +100,6 @@ app.get("*", async (req, res) => {
   res.send(page[0].text).status(404);
 });
 
-const PORT = 80;
+const PORT = 3000;
 
 app.listen(PORT, console.log("Сервер запущен на порту " + PORT));

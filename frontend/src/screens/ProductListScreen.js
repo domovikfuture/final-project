@@ -18,7 +18,7 @@ const ProductListScreen = ({ history, match }) => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
-
+  console.log(1, "products")
   const productDelete = useSelector((state) => state.productDelete);
   const {
     loading: loadingDelete,
@@ -34,8 +34,12 @@ const ProductListScreen = ({ history, match }) => {
 
     if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
+    } else {
+      dispatch(listProducts('', pageNumber))
     }
   }, [dispatch, history, userInfo, successDelete, pageNumber]);
+
+  useEffect(() => console.log('page'), [])
 
   const deleteHandler = (id) => {
     if (window.confirm("Вы уверены?")) {

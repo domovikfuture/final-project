@@ -31,7 +31,6 @@ const __dirname = path.resolve();
 router.put("/", upload.single("image"), async (req, res) => {
   const { id } = req.body;
   const { buffer, originalname } = req.file;
-  console.log(1)
 
   try {
     const { image } = await req.db.fetchProductById(id);
@@ -39,7 +38,8 @@ router.put("/", upload.single("image"), async (req, res) => {
       path.resolve(__dirname, "uploads", `${id}-main-image.webp`)
     );
     if (Buffer.compare(buffer, existingBuffer) === 0) {
-      res.status(304).send(image);
+      console.log(image)
+      res.send(image).status(304);
     } else {
       const timestamp = new Date()
         .toISOString()
@@ -54,7 +54,7 @@ router.put("/", upload.single("image"), async (req, res) => {
         .webp({ quality: 20 })
         .toFile(path.resolve(__dirname, "images", updatedImageName));
 
-      res.send(path.resolve("images", updatedImageName));
+      res.send(path.join("images", updatedImageName)).status(200);
     }
   } catch (err) {
     if (err) console.log("Ошибка", err);
@@ -82,7 +82,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     res.send(path.join("images", finalImageName));
   } catch (e) {
-    res.status(404).send(e);
+    res.send(e).status(404);
   }
 });
 
