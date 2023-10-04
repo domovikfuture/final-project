@@ -107,6 +107,6 @@ app.get("*", async (req, res) => {
   res.send(page[0].text).status(404);
 });
 
-const PORT = 5000;
+const PORT = 80;
 
 app.listen(PORT, console.log("Сервер запущен"));
