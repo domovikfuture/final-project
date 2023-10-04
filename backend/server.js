@@ -45,51 +45,49 @@ app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-// app.use(async (req) => {
-//   console.log(req.headers.referer);
-//   try {
-//     const { pathname } = new URL(req.headers.referer);
-//     const filePath = path.join(__dirname, "/backend", "links.json");
-//     let isUpdated = false;
+app.use(async (req) => {
+  console.log("km km ", req.headers.referer);
 
-//     const data = await fs.promises.readFile(filePath);
-//     console.log(data);
-//     const links = JSON.parse(data);
+  const { pathname } = new URL(req.headers.referer);
+  const filePath = path.join(__dirname, "/backend", "links.json");
+  let isUpdated = false;
 
-//     if (!links.length) {
-//       links.push(pathname);
-//     } else if (!links.includes(pathname)) {
-//       isUpdated = true;
-//       links.push(pathname);
-//     }
-//     await fs.promises.writeFile(filePath, JSON.stringify(links));
+  const data = await fs.promises.readFile(filePath);
+  console.log(data);
+  // const links = JSON.parse(data);
 
-//     if (isUpdated) {
-//       const data = await fs.promises.readFile(filePath, (err) => {
-//         console.log(err);
-//       });
-//       const links = JSON.parse(data);
-//       let siteMapContent = "";
-//       links.map((item) => {
-//         siteMapContent +=
-//           `<url><loc>http://http://161.35.68.81/${item}</loc></url>` + os.EOL;
-//       });
-//       await fs.promises.writeFile(
-//         path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
-//         `<?xml version="1.0" encoding="UTF-8"?>
-//           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-//             ${siteMapContent}
-//           </urlset>`,
-//         (err) => {
-//           if (err) console.log("Ошибка", err);
-//         }
-//       );
-//       isUpdated = false;
-//     }
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
+  // if (!links.length) {
+  //   links.push(pathname);
+  // } else if (!links.includes(pathname)) {
+  //   isUpdated = true;
+  //   links.push(pathname);
+  // }
+
+  // await fs.promises.writeFile(filePath, JSON.stringify(links));
+
+  // if (isUpdated) {
+  //   const data = await fs.promises.readFile(filePath, (err) => {
+  //     console.log(err);
+  //   });
+  //   const links = JSON.parse(data);
+  //   let siteMapContent = "";
+  //   links.map((item) => {
+  //     siteMapContent +=
+  //       `<url><loc>http://http://161.35.68.81/${item}</loc></url>` + os.EOL;
+  //   });
+  //   await fs.promises.writeFile(
+  //     path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
+  //     `<?xml version="1.0" encoding="UTF-8"?>
+  //       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  //         ${siteMapContent}
+  //       </urlset>`,
+  //     (err) => {
+  //       if (err) console.log("Ошибка", err);
+  //     }
+  //   );
+  //   isUpdated = false;
+  // }
+});
 
 app.get("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
