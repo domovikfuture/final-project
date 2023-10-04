@@ -54,14 +54,14 @@ app.use(async (req) => {
 
   const data = await fs.promises.readFile(filePath);
   console.log(data);
-  // const links = JSON.parse(data);
+  const links = JSON.parse(data);
 
-  // if (!links.length) {
-  //   links.push(pathname);
-  // } else if (!links.includes(pathname)) {
-  //   isUpdated = true;
-  //   links.push(pathname);
-  // }
+  if (!links.length) {
+    links.push(pathname);
+  } else if (!links.includes(pathname)) {
+    isUpdated = true;
+    links.push(pathname);
+  }
 
   // await fs.promises.writeFile(filePath, JSON.stringify(links));
 
