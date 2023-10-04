@@ -8,7 +8,10 @@ const NotFoundScreen = () => {
     const init = async () => {
       const data = await fetch(window.location.href);
       const resHtml = await data.text()
-      console.log(resHtml)
+
+      if (resHtml.startsWith('<!doctype html>') && window.location.pathname !== "/404") {
+        window.location.href = "/404"
+      }
       setHtml(resHtml);
     };
     init();

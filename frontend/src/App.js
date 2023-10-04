@@ -45,10 +45,10 @@ const App = () => {
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/admin/userlist" component={UserListScreen} />
             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
-            <Route path="/smartphones" component={SmartphonesScreen} exact />
-            <Route path="/tv" component={TvScreen} exact />
-            <Route path="/notebooks" component={NotebooksScreen} exact />
-            <Route path="/games" component={GamesScreen} exact />
+            <Route path="/smartphones" component={SmartphonesScreen} />
+            <Route path="/tv" component={TvScreen} />
+            <Route path="/notebooks" component={NotebooksScreen} />
+            <Route path="/games" component={GamesScreen} />
             <Route
               path="/admin/productlist"
               component={ProductListScreen}
