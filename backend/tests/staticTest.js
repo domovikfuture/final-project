@@ -10,7 +10,7 @@ const loadStaticTest = (dir, name) => {
 
     files.forEach((file) => {
       const filePath = path.join(dir, file);
-      const url = `http://localhost:3000/${name}/${file}`;
+      const url = `http://161.35.68.81/${name}/${file}`;
 
       exec(`ab -n 1000 -c 100 ${url}`, (err, stdout) => {
         if (err) {

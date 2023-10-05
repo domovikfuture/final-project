@@ -55,7 +55,7 @@ app.use(async (req, res, next) => {
   if (!req.headers.referer) return next();
   const { pathname } = new URL(req.headers.referer || "");
   const filePath = path.join(__dirname, "backend", "links.json");
-  console.log(req.headers.referer)
+
   if (
     pathname.startsWith("/admin") ||
     pathname.startsWith("/images") ||
@@ -118,6 +118,6 @@ app.get("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
 );
 
-const PORT = 3000;
+const PORT = 80;
 
 app.listen(PORT, console.log("Сервер запущен на порту " + PORT));
