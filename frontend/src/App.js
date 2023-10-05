@@ -25,7 +25,7 @@ import GamesScreen from "./screens/GamesScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import NotFoundAdminScreen from "./screens/NotFoundAdminScreen";
 import ProductCreateScreen from "./screens/ProductCreateScreen";
-import { Switch } from "react-router-dom/cjs/react-router-dom.min";
+import {Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 const App = () => {
   return (
@@ -79,7 +79,7 @@ const App = () => {
               exact
             />
             <Route path="/" component={HomeScreen} exact />
-            <Route component={NotFoundScreen} />
+            <Route component={NotFoundScreen}/>
           </Switch>
         </Container>
       </main>

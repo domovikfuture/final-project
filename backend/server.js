@@ -15,6 +15,26 @@ import cacheRequest from "./utils/cacheRequest.js";
 
 dotenv.config();
 
+const validRoutes = [
+  "/order",
+  "/shipping",
+  "/payment",
+  "/placeorder",
+  "/login",
+  "/register",
+  "/profile",
+  "/product",
+  "/cart",
+  "/smartphones",
+  "/tv",
+  "/notebooks",
+  "/games",
+  "/search",
+  "/page",
+  "/",
+];
+const host_for_sitemap = "161.35.68.81";
+
 const __dirname = path.resolve();
 const app = express();
 let dataAccessLayer = null;
@@ -28,6 +48,50 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   req.db = dataAccessLayer;
+  next();
+});
+
+app.use(async (req, res, next) => {
+  if (!req.headers.referer) return next();
+  const { pathname } = new URL(req.headers.referer || "");
+  const filePath = path.join(__dirname, "backend", "links.json");
+  console.log(req.headers.referer)
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/images") ||
+    pathname.startsWith("/uploads")
+  ) {
+    return next();
+  }
+
+  if (!validRoutes.some(route => pathname.startsWith(route))) {
+    return next();
+}
+
+  if (!fs.existsSync(filePath)) {
+    await fs.promises.writeFile(filePath, JSON.stringify([]));
+  }
+
+  let links = JSON.parse(await fs.promises.readFile(filePath, "utf-8"));
+
+  if (!links.includes(pathname)) {
+    links.push(pathname);
+
+    await fs.promises.writeFile(filePath, JSON.stringify(links));
+
+    let sitemapContent = links
+      .map((link) => `<url><loc>http://${host_for_sitemap}${link}</loc></url>`)
+      .join(os.EOL);
+    let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+                        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+                          ${sitemapContent}
+                        </urlset>`;
+    await fs.promises.writeFile(
+      path.join(__dirname, "frontend", "public", "sitemap.xml"),
+      sitemapXml
+    );
+  }
+
   next();
 });
 
@@ -53,53 +117,6 @@ app.use(express.static(path.join(__dirname, "/frontend", "/build")));
 app.get("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
 );
-
-app.use(async (req) => {
-  if (!req.headers.referer) return
-  const { pathname } = new URL(req.headers.referer);
-  const filePath = path.join(__dirname, "/backend", "links.json");
-  let isUpdated = false;
-
-  const data = await fs.promises.readFile(filePath);
-  const links = JSON.parse(data);
-
-  if (!links.length) {
-    links.push(pathname);
-  } else if (!links.includes(pathname)) {
-    isUpdated = true;
-    links.push(pathname);
-  }
-
-  const newData = JSON.stringify(links);
-  await fs.promises.writeFile(filePath, newData);
-
-  if (isUpdated) {
-    const data = await fs.promises.readFile(filePath, (err) => {
-      if (err) console.log("Ошибка", err);
-    });
-
-    let siteMapContent = "";
-    const links = JSON.parse(data);
-    links.map((item) => {
-      siteMapContent +=
-        `<url><loc>http://161.35.68.81/${item}</loc></url>` + os.EOL;
-    });
-
-    const newContent =  `<?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${siteMapContent}
-    </urlset>`;
-
-    await fs.promises.writeFile(
-      path.join(__dirname, "/frontend", "/public", "sitemap.xml"),
-      newContent,
-      (err) => {
-        if (err) console.log("Ошибка", err);
-      }
-    );
-    isUpdated = false
-  }
-});
 
 const PORT = 3000;
 
